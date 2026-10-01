@@ -45,6 +45,7 @@ public class SkeletonPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		// Draws the window
 		super.paintComponent(g);
+		//para poner el origen en el medio
 		float originX = getWidth() / 2;
 		float originY = getHeight() / 2;
 
@@ -59,10 +60,10 @@ public class SkeletonPanel extends JPanel {
 		// TODO: Ponga comentarios en este método
 		g.fillOval((int) node.getX() - 4, (int) node.getY() - 4, 8, 8);
 		g.drawLine((int) parentX, (int) parentY, (int) node.getX(), (int) node.getY());
-		if (node.getChildren().size() == 0) {
+		if (node.getChildren().size() == 0) { //caso base
 			return;
 		}
-		for (Node child : node.getChildren()) {
+		for (Node child : node.getChildren()) { //paso rescursivo 
 			drawSkeleton(g, node.getX(), node.getY(), child);
 		}
 	}
