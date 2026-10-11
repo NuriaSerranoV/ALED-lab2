@@ -26,32 +26,47 @@ public class ForwardKinematics {
 	 * @return The tree of Nodes that represent the exoskeleton position in absolute
 	 *         coordinates.
 	 */
-	// Public method: returns the root of the position tree
+	// Public method: returns the root of the position tree: MÉTODO FACHADA
 	public static Node computePositions(Segment root, double originX, double originY) {
-		// TODO: Implemente este método
-		 return computePositions(root, originX, originY, 0);
+		 return computePositions(root, originX, originY, 0.0);
 		
 		
 	}
 
-	// Private helper method that implements the recursive algorithm
+	// Private helper method that implements the recursive algorithm: MÉTODO RECURSIVO
 	private static Node computePositions(Segment link, double baseX, double baseY, double accumulatedAngle) {
-		
-		Node nodo= new Node(baseX, baseY);
-		if(link.getChildren().size()==0) { //CASO BASE
-			return nodo;
-		}
-		
-		double nuevaX=baseX + link.getLength()*Math.cos(link.getAngle()+ accumulatedAngle);
-		double nuevaY=baseY + link.getLength()*Math.sin(link.getAngle()+accumulatedAngle);
-		Node nodoHijo= new Node(nuevaX, nuevaY);
-		nodo.addChild(nodoHijo);
-		for(Segment child:link.getChildren()) {
-			accumulatedAngle= link.getAngle() + accumulatedAngle;
-			 return computePositions(child, nuevaX, nuevaY,accumulatedAngle);
+		long startTime= System.nanoTime();
 			
+		accumulatedAngle+=link.getAngle();
+		double x= baseX + link.getLength()*Math.cos(accumulatedAngle);
+		double y= baseY + link.getLength()*Math.sin(accumulatedAngle);
+		Node node=new Node(x,y); //genero el nodo de a donde llego 
+		
+		if(link.getChildren().isEmpty()) {
+			long runningTime = System.nanoTime()- startTime; 
+			System.out.println("Tiempo de computePositions para un segmento con " + link.getChildren().size() + " hijos: " + runningTime + " nanosegundos");//caso base
+			return node;
 		}
-		return nodo;
+		for (Segment child: link.getChildren()) {
+			node.addChild(computePositions(child,x,y,accumulatedAngle));
+			long runningTime = System.nanoTime()- startTime; 
+			System.out.println("Tiempo de computePositions para un segmento con " + link.getChildren().size() + " hijos: " + runningTime + " nanosegundos");
+		
+		
+		}
+		return node;
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 		
 		
 	

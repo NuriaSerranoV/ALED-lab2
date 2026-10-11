@@ -46,8 +46,8 @@ public class SkeletonPanel extends JPanel {
 		// Draws the window
 		super.paintComponent(g);
 		//para poner el origen en el medio
-		float originX = getWidth() / 2;
-		float originY = getHeight() / 2;
+		float originX = getWidth() / 2;//ancho de la banda partido por dos 
+		float originY = getHeight() / 2;//alto de la venata partido por dos 
 
 		// Computes the full tree of positions
 		Node nodeRoot = ForwardKinematics.computePositions(root, originX, originY);
@@ -55,16 +55,15 @@ public class SkeletonPanel extends JPanel {
 		// Draw the tree of Nodes recursively
 		drawSkeleton(g, originX, originY, nodeRoot);
 	}
-
+//este metodo recibe un nodo, pinta el circulo que corresponde a ese nodo y el segmento que le une con el naterior, se va  air preguntano quienes son sus hijos para hijo a hijo ir representando su circulo y el segmento que los une 
 	private void drawSkeleton(Graphics g, double parentX, double parentY, Node node) {
-		// TODO: Ponga comentarios en este método
-		g.fillOval((int) node.getX() - 4, (int) node.getY() - 4, 8, 8);
-		g.drawLine((int) parentX, (int) parentY, (int) node.getX(), (int) node.getY());
-		if (node.getChildren().size() == 0) { //caso base
-			return;
+		g.fillOval((int) node.getX() - 4, (int) node.getY() - 4, 8, 8);//código común del algoritmo, pinta círculo en pantalla 
+		g.drawLine((int) parentX, (int) parentY, (int) node.getX(), (int) node.getY());//código común del algoritmo. dibuja una linea entre los puntos que le das, la pnta respecto al nodo que le has dado
+		if (node.getChildren().size() == 0) { //caso base (la recursividad acaba cuando el nodo ya no tiene hijos)
+			return; //(para)
 		}
 		for (Node child : node.getChildren()) { //paso rescursivo 
-			drawSkeleton(g, node.getX(), node.getY(), child);
+			drawSkeleton(g, node.getX(), node.getY(), child); //le paso del nodo en el que estoy (padre) la x y la y y luego el hijo para pintarlo 
 		}
 	}
 }

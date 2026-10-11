@@ -1,5 +1,6 @@
 package es.upm.aled.lab2.kinematics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,6 +15,8 @@ public class Segment {
 	public Segment (double length, double angle) {
 		this.length=length;
 		this.angle=angle;
+		this.children= new ArrayList<>();
+		
 	}
 	
 	//getters y setters de los atributos
@@ -35,7 +38,7 @@ public class Segment {
 	}
 	
 	
-	public void addChildren(Segment child) {
+	public void addChild(Segment child) {
 		if(!children.contains(child)) {
 		children.add(child);
 		}
